@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cipher Block Chaining — Kriptografi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <h1> Cipher Block Chaining — KRIPTOGRAFI </h1>
+  <div class="subtitle">
+    Block Cipher Simetris | IV=0xAA | XOR + Rotate Left 1bit | Mode: CBC
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('encrypt')">
+      ENKRIPSI
+    </button>
+    <button class="tab" onclick="switchTab('decrypt')"> DEKRIPSI </button>
+  </div>
+
+  <!-- ===== ENKRIPSI ===== -->
+  <div class="panel active" id="panel-encrypt">
+    <div class="section-title"> ENKRIPSI: Plaintext → Ciphertext</div>
+
+    <div class="field">
+      <label>PLAINTEXT (ASCII):</label>
+      <textarea id="enc-plain" rows="3" placeholder="Masukkan teks yang akan dienkripsi..."
+        oninput="showPlainBin()"></textarea>
+    </div>
+    <div class="field">
+      <label>BINER PLAINTEXT:</label>
+      <div id="enc-plain-bin" class="bin-preview">-</div>
+    </div>
+    <div class="field">
+      <label>KEY (string):</label>
+      <input type="text" id="enc-key" placeholder="Masukkan kunci enkripsi..." />
+    </div>
+
+    <button class="btn" onclick="runEncrypt()"> JALANKAN ENKRIPSI </button>
+
+    <div class="error" id="enc-error"></div>
+
+    <div class="result" id="enc-result">
+      <div class="result-title"> HASIL ENKRIPSI</div>
+      <div class="result-row">
+        <span class="rl">Plaintext (ASCII)</span>
+        <span class="rv" id="r-plain-ascii"></span>
+        <button class="copy-btn" onclick="cp('r-plain-ascii')">COPY</button>
+      </div>
+      <div class="result-row">
+        <span class="rl">Plaintext (Biner)</span>
+        <span class="rv small" id="r-plain-bin"></span>
+        <button class="copy-btn" onclick="cp('r-plain-bin')">COPY</button>
+      </div>
+      <div class="result-row">
+        <span class="rl">Key</span>
+        <span class="rv" id="r-key"></span>
+      </div>
+      <div class="divider"></div>
+      <div class="result-row">
+        <span class="rl">Ciphertext (Biner)</span>
+        <span class="rv small" id="r-cipher-bin"></span>
+        <button class="copy-btn" onclick="cp('r-cipher-bin')">COPY</button>
+      </div>
+      <div class="result-row">
+        <span class="rl">Ciphertext (Huruf)</span>
+        <span class="rv highlight" id="r-cipher-huruf"></span>
+        <button class="copy-btn" onclick="cp('r-cipher-huruf')">COPY</button>
+      </div>
+
+      <div class="viz-section">
+        <div class="viz-title"> PROSES PER BLOK</div>
+        <div class="viz-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Plain</th>
+                <th>⊕ Prev(IV)</th>
+                <th>⊕ Key</th>
+                <th>ROT-L</th>
+                <th>Cipher</th>
+              </tr>
+            </thead>
+            <tbody id="enc-viz"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DEKRIPSI ===== -->
+  <div class="panel" id="panel-decrypt">
+    <div class="section-title">DEKRIPSI: Ciphertext → Plaintext</div>
+
+    <div class="field">
+      <label>FORMAT CIPHERTEXT:</label>
+      <div class="radio-group">
+        <label><input type="radio" name="dec-fmt" value="binary" checked onchange="updateDecLabel()" />
+          Biner</label>
+        <label><input type="radio" name="dec-fmt" value="letter" onchange="updateDecLabel()" />
+          ASCII</label>
+      </div>
+    </div>
+    <div class="field">
+      <label id="dec-cipher-label">CIPHERTEXT (BINER):</label>
+      <textarea id="dec-cipher" rows="3" placeholder="Contoh biner: 00010011 10110110 ..."></textarea>
+    </div>
+    <div class="field">
+      <label>KEY (string):</label>
+      <input type="text" id="dec-key" placeholder="Masukkan kunci yang sama saat enkripsi..." />
+    </div>
+
+    <button class="btn" onclick="runDecrypt()"> JALANKAN DEKRIPSI </button>
+
+    <div class="error" id="dec-error"></div>
+
+    <div class="result" id="dec-result">
+      <div class="result-title"> HASIL DEKRIPSI</div>
+      <div class="result-row">
+        <span class="rl">Ciphertext (ASCII)</span>
+        <span class="rv" id="d-cipher-huruf"></span>
+        <button class="copy-btn" onclick="cp('d-cipher-huruf')">COPY</button>
+      </div>
+      <div class="result-row">
+        <span class="rl">Ciphertext (Biner)</span>
+        <span class="rv small" id="d-cipher-bin"></span>
+        <button class="copy-btn" onclick="cp('d-cipher-bin')">COPY</button>
+      </div>
+      <div class="result-row">
+        <span class="rl">Key</span>
+        <span class="rv" id="d-key"></span>
+      </div>
+      <div class="divider"></div>
+      <div class="result-row">
+        <span class="rl">Plaintext (ASCII)</span>
+        <span class="rv highlight" id="d-plain-ascii"></span>
+        <button class="copy-btn" onclick="cp('d-plain-ascii')">COPY</button>
+      </div>
+
+      <div class="viz-section">
+        <div class="viz-title"> PROSES PER BLOK</div>
+        <div class="viz-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Cipher</th>
+                <th>ROT-R</th>
+                <th>⊕ Key</th>
+                <th>⊕ Prev(IV)</th>
+                <th>Plain</th>
+              </tr>
+            </thead>
+            <tbody id="dec-viz"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INFO ===== -->
+  <div class="info-section">
+    <div class="info-header"> CARA KERJA ALGORITMA</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-title">[01] CBC XOR</div>
+        <div class="info-card-body">
+          Setiap byte plaintext di-XOR dengan ciphertext byte sebelumnya. Blok
+          pertama menggunakan IV = 0xAA.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">[02] SUBSTITUTE</div>
+        <div class="info-card-body">
+          Hasil XOR di-XOR lagi dengan karakter kunci. Kunci berulang (cyclic)
+          jika lebih pendek dari plaintext.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">[03] ROTATE LEFT</div>
+        <div class="info-card-body">
+          Byte digeser 1 bit ke kiri secara sirkular. Bit paling kiri masuk
+          kembali dari kanan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>by &mdash; mhabibier</footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
