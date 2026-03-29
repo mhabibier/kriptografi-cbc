@@ -2,9 +2,11 @@
 
 Website ini merupakan simulasi **kriptografi block cipher simetris** menggunakan mode **Cipher Block Chaining (CBC)** dengan kombinasi operasi:
 
-* XOR (Exclusive OR)
-* Substitute (menggunakan key)
-* Rotasi bit (Rotate Left & Rotate Right)
+[![screen](screen.png)](.)
+
+- XOR (Exclusive OR)
+- Substitute (menggunakan key)
+- Rotasi bit (Rotate Left & Rotate Right)
 
 ---
 
@@ -24,13 +26,13 @@ Block cipher adalah metode enkripsi yang membagi data menjadi blok-blok berukura
 
 Pada project ini:
 
-* Ukuran blok: **8 bit (1 byte)**
-* Setiap karakter plaintext diproses sebagai satu blok
+- Ukuran blok: **8 bit (1 byte)**
+- Setiap karakter plaintext diproses sebagai satu blok
 
 Keunggulan:
 
-* Memberikan keamanan lebih tinggi dibanding metode sederhana
-* Setiap blok diproses menggunakan algoritma tertentu
+- Memberikan keamanan lebih tinggi dibanding metode sederhana
+- Setiap blok diproses menggunakan algoritma tertentu
 
 ---
 
@@ -46,10 +48,10 @@ Ci = E(Pi XOR Ci-1)
 
 Keterangan:
 
-* `Pi` = plaintext ke-i
-* `Ci` = ciphertext ke-i
-* `Ci-1` = ciphertext sebelumnya
-* `E` = fungsi enkripsi
+- `Pi` = plaintext ke-i
+- `Ci` = ciphertext ke-i
+- `Ci-1` = ciphertext sebelumnya
+- `E` = fungsi enkripsi
 
 ---
 
@@ -61,31 +63,31 @@ Pi = D(Ci) XOR Ci-1
 
 Keterangan:
 
-* `D` = fungsi dekripsi
+- `D` = fungsi dekripsi
 
 ---
 
 ### 🔹 Initialization Vector (IV)
 
-* Nilai IV: **0xAA**
-* Biner: `10101010`
+- Nilai IV: **0xAA**
+- Biner: `10101010`
 
 Fungsi:
 
-* Digunakan pada blok pertama
-* Mencegah ciphertext awal yang sama
-* Meningkatkan keamanan
+- Digunakan pada blok pertama
+- Mencegah ciphertext awal yang sama
+- Meningkatkan keamanan
 
 ---
 
 ### 🔹 Operasi XOR (Exclusive OR)
 
-| A | B | A XOR B |
-| - | - | ------- |
-| 0 | 0 | 0       |
-| 0 | 1 | 1       |
-| 1 | 0 | 1       |
-| 1 | 1 | 0       |
+| A   | B   | A XOR B |
+| --- | --- | ------- |
+| 0   | 0   | 0       |
+| 0   | 1   | 1       |
+| 1   | 0   | 1       |
+| 1   | 1   | 0       |
 
 XOR digunakan dalam proses pencampuran data pada enkripsi.
 
@@ -97,13 +99,13 @@ Rotasi bit adalah operasi pergeseran bit secara melingkar.
 
 #### Rotate Left (Rotasi Kiri)
 
-* Bit digeser ke kiri
-* Bit paling kiri masuk kembali ke kanan
+- Bit digeser ke kiri
+- Bit paling kiri masuk kembali ke kanan
 
 #### Rotate Right (Rotasi Kanan)
 
-* Bit digeser ke kanan
-* Bit paling kanan masuk kembali ke kiri
+- Bit digeser ke kanan
+- Bit paling kanan masuk kembali ke kiri
 
 ---
 
@@ -111,8 +113,8 @@ Rotasi bit adalah operasi pergeseran bit secara melingkar.
 
 ASCII merupakan standar pengkodean karakter:
 
-* Digunakan untuk merepresentasikan huruf, angka, dan simbol
-* Setiap karakter memiliki nilai numerik (7–8 bit)
+- Digunakan untuk merepresentasikan huruf, angka, dan simbol
+- Setiap karakter memiliki nilai numerik (7–8 bit)
 
 Dalam program ini:
 
@@ -193,13 +195,13 @@ index.html
 
 ### Enkripsi:
 
-* Plaintext: `HELLO`
-* Key: `KEY`
+- Plaintext: `HELLO`
+- Key: `KEY`
 
 ### Dekripsi:
 
-* Gunakan ciphertext hasil enkripsi
-* Gunakan key yang sama
+- Gunakan ciphertext hasil enkripsi
+- Gunakan key yang sama
 
 ---
 
